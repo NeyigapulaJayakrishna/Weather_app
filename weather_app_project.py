@@ -2,7 +2,7 @@ import requests
 import os
 
 def get_weather(city_name):
-    api_key=os.getenv('OPEN_WEATHER_API_KEY')
+    api_key=os.getenv('OPENWEATHER_API_KEY')
     if not api_key:
         print("API key is not found.please set the 'OPENWEATHER_API_KEY' environment variable")
         return
@@ -15,21 +15,20 @@ def get_weather(city_name):
         data = response.json()
 
         # Check if the request was successful
-        if response.status_code == 200:
-            city_name=data['name']
-            weather_description = data['weather'][0]['description']
-            temperature = data['main']['temp']
-            humidity = data['main']['humidity']
-            wind_speed = data['wind']['speed']
+        
+        city_name=data['name']
+        weather_description = data['weather'][0]['description']
+        temperature = data['main']['temp']
+        humidity = data['main']['humidity']
+        wind_speed = data['wind']['speed']
 
-            print(f"\nWeather Information for {city_name.capitalize()}:")
-            print(f"Description: {weather_description.capitalize()}")
-            print(f"Temperature: {temperature}°C")
-            print(f"Humidity: {humidity}%")
-            print(f"Wind Speed: {wind_speed} m/s")
-        else:
+        print(f"\nWeather Information for {city_name.capitalize()}:")
+        print(f"Description: {weather_description.capitalize()}")
+        print(f"Temperature: {temperature}°C")
+        print(f"Humidity: {humidity}%")
+        print(f"Wind Speed: {wind_speed} m/s")
+    except requests.exceptions.HTTPError:
             print("City not found or an error occurred. Please check the city name.")
-
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
 
