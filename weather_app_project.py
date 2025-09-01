@@ -1,6 +1,7 @@
+from dotenv import load_dotenv
 import requests
 import os
-
+load_dotenv()
 def get_weather(city_name):
     api_key=os.getenv('OPENWEATHER_API_KEY')
     if not api_key:
@@ -14,7 +15,6 @@ def get_weather(city_name):
         response.raise_for_status()
         data = response.json()
 
-        # Check if the request was successful
         
         city_name=data['name']
         weather_description = data['weather'][0]['description']
@@ -29,6 +29,7 @@ def get_weather(city_name):
         print(f"Wind Speed: {wind_speed} m/s")
     except requests.exceptions.HTTPError:
             print("City not found or an error occurred. Please check the city name.")
+
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
 
@@ -36,3 +37,4 @@ def get_weather(city_name):
 print("Welcome to the Weather Information App")
 city_name = input("Enter the city name: ")
 get_weather(city_name)
+
